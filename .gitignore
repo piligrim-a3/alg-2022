@@ -1,9 +1,5 @@
-/dinamic-massive/build/
-/LecStack/nbproject/private/
-/LecStack/build/
-/LeckQueue/nbproject/private/
-/LeckQueue/build/
-/LecList/target/
-/LecTree/target/
 *.idea/
 *.iml
+/tasks/**/target/
+/tasks/**/build/
+/tasks/**/nbproject/
