@@ -1,0 +1,88 @@
+package ru.bgpu.task.sort;
+
+import java.util.Arrays;
+import java.util.Random;
+
+public class Main {
+
+    public static final int ARRAY_SIZE = 50000;
+
+    public static void main(String[] args) {
+        Random random = new Random();
+        int[] array = new int[ARRAY_SIZE];
+        int[] checkArray = new int[ARRAY_SIZE];
+
+        for(int i = 0; i < array.length; i++) {
+            array[i] = random.nextInt();
+        }
+
+        System.arraycopy(array, 0, checkArray, 0, ARRAY_SIZE);
+        System.out.println("Start user sort");
+        long time = System.currentTimeMillis();
+        sort(array);
+        System.out.format("sorted: %.3f seconds\r\n", (System.currentTimeMillis()-time) / 1000d);
+        System.out.println("Start java lib sort");
+        time = System.currentTimeMillis();
+        Arrays.sort(checkArray);
+        System.out.format("sorted: %.3f seconds\r\n", (System.currentTimeMillis()-time) / 1000d);
+        System.out.println("Check result");
+        for(int i = 0; i < array.length; i++) {
+            if(array[i] != checkArray[i]) {
+                throw new RuntimeException("Error in index: "+i);
+            }
+        }
+        System.out.println("OK");
+    }
+
+    public static void sort(int[] array) {
+        int[] arr = {1000, 5, 7, 3, 1, 500, 13, 19, -5};
+        heapSort(arr);
+        System.out.println("HeapSort");
+        for (int j : arr) System.out.print(j + " ");
+        boolean isSorted = false;
+        int buf;
+        while(!isSorted) {
+            isSorted = true;
+            for (int i = 0; i < array.length-1; i++) {
+                if(array[i] > array[i+1]){
+                    isSorted = false;
+
+                    buf = array[i];
+                    array[i] = array[i+1];
+                    array[i+1] = buf;
+                }
+            }
+        }
+    }
+
+    private static void heapSort(int[] arr) {
+        int n = arr.length;
+        for(int i = n / 2 -1; i >= 0; i--)
+            heapify(arr, i, n);
+
+        for(int i = n - 1; i >= 0; i--){
+            int temp = arr[i];
+            arr[i] = arr[0];
+            arr[0] = temp;
+
+            heapify(arr, 0, i);
+        }
+    }
+
+    private static void heapify(int[] arr, int i, int n) {
+        int l = i * 2 + 1;
+        int r = i * 2 + 2;
+        int largest = i;
+
+        if(l < n && arr[l] > arr[largest])
+            largest = l;
+        if(r < n && arr[r] > arr[largest])
+            largest = r;
+
+        if(i != largest){
+            int temp = arr[i];
+            arr[i] = arr[largest];
+            arr[largest] = temp;
+        }
+    }
+}
